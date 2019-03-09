@@ -3,41 +3,32 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
+  <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Initial Values
+          </mat-panel-title>
+        </mat-expansion-panel-header>
 
-  <mat-form-field>
-    <input matInput placeholder="Current RRSP Room" type="number" value="0">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Current TFSA Room" type="number" value="0">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Current Age" type="number" value="32">
-  </mat-form-field>
+        <app-initial-values [model]="initialValues"></app-initial-values>
+      </mat-expansion-panel>
 
+      <mat-expansion-panel *ngIf="summary.thisYear">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                Current Year
+              </mat-panel-title>
+            </mat-expansion-panel-header>
 
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-      <ng-container matColumnDef="year">
-        <th mat-header-cell *matHeaderCellDef> Year </th>
-        <td mat-cell *matCellDef="let element"> {{element.year}} </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="rrsp">
-        <th mat-header-cell *matHeaderCellDef> RRSP </th>
-        <td mat-cell *matCellDef="let element"> <app-contribution></app-contribution> </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="tfsa">
-        <th mat-header-cell *matHeaderCellDef> TFSA </th>
-        <td mat-cell *matCellDef="let element"> <app-contribution></app-contribution> </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="taxable">
-        <th mat-header-cell *matHeaderCellDef> Taxable </th>
-        <td mat-cell *matCellDef="let element"> <app-contribution></app-contribution> </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+            <app-current-year></app-current-year>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel  *ngIf="summary.thisYear">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Summary
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-summary></app-summary>
+              </mat-expansion-panel>    
 </div>

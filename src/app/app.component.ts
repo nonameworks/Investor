@@ -1,26 +1,24 @@
-import { Component } from '@angular/core';
+import { SummaryService } from './services/summary.service';
+import { Portfolio } from './models/portfolio.model';
+import { Contribution } from './models/contribution.model';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
 
-
-export interface idName {
-  id: string;
-  name: string;
-}
+import { IdName } from './models/idName.model';
+import { Year } from './models/year.model';
+import { YearFactory } from './services/yearFactory.service';
+import { SummaryComponent } from './summary/summary.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'investor';
-  riskProfile: idName[] = [
-    {id: 'conservative', name: 'Conservative'},
-    {id: 'cautious', name: 'Cautious'},
-    {id: 'balanced', name: 'Balanced'},
-    {id: 'assertive', name: 'Assertive'},
-    {id: 'aggressive', name: 'Aggressive'}
-  ];
-  selectedCategory: string
 
-  
+  constructor(private summary: SummaryService) {}
+
+  ngOnInit() {
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Contribution } from '../models/contribution.model';
 
 @Component({
@@ -7,8 +7,9 @@ import { Contribution } from '../models/contribution.model';
   styleUrls: ['./contribution.component.css']
 })
 export class ContributionComponent implements OnInit {
-  periods = ["Annually", "Monthly", "Semi-monthly", "Bi-weekly", "Weekly"];
-  model: Contribution;
+  periods = ['Annually', 'Monthly', 'Semi-monthly', 'Bi-weekly', 'Weekly'];
+  @Input() model: Contribution;
+  @Input() disableValue: boolean;
 
   constructor() { }
 

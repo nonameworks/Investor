@@ -1,0 +1,24 @@
+<div >
+  <mat-form-field>
+    <input matInput placeholder="RRSP Contribution Room" type="number" [(ngModel)]="model.rrspRoom" [disabled]="disable">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="TFSA Contribution Room" type="number" [(ngModel)]="model.tfsaRoom" [disabled]="disable">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Age" type="number" [(ngModel)]="model.age" [disabled]="disable">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="RRSP Contribution Value" type="number" [(ngModel)]="model.rrspValue" [disabled]="disable">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="TFSA Contribution Value" type="number" [(ngModel)]="model.tfsaValue" [disabled]="disable">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="TFSA Contribution Value" type="number" [(ngModel)]="model.taxableValue" [disabled]="disable">
+  </mat-form-field>
+
+  <button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin-top:20px;" *ngIf="!disable">Add First Year</button>
+    <p *ngIf="!disable">Initial values will be read-only after the first year is added</p>
+</div>
