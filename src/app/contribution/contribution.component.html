@@ -1,0 +1,18 @@
+<div>
+  
+    <mat-form-field>
+        <input matInput placeholder="Value" type="number" [value]="model.value" enabled="false">
+      </mat-form-field>
+      
+    <mat-form-field>
+        <input matInput placeholder="Contribution" type="number" [value]="model.contribution" enabled="false">
+      </mat-form-field>
+      
+      <mat-form-field>
+          <mat-select placeholder="Period">
+            <mat-option *ngFor="let period of periods" [value]="model.period">
+              {{period}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+</div>>
