@@ -9,4 +9,5 @@ export interface Portfolio {
     taxableValue: number;
     income: number;
     mortgage: Mortgage;
+    pension: number;
 }

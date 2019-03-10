@@ -1,3 +1,4 @@
+import { Mortgage } from './../models/mortgage.model';
 import { Portfolio } from './../models/portfolio.model';
 import { ContributionService } from './contribution.service';
 import { Year } from '../models/year.model';
@@ -48,11 +49,8 @@ export class YearFactory {
 
     private static used: number[] = [];
 
-    public static CreateYear(riskProfile: string, income: number, previousYear: Year): Year {
+    public static CreateYear(riskProfile: string, income: number, previousYear: Year, newMortgage: Mortgage): Year {
         let curReturn = YearFactory.GetReturn();
-
-        // Adjust for inflation to keep everything in today's dollars
-        curReturn = curReturn - .02;
         switch (riskProfile) {
             case 'Aggressive': break;
             case 'Assertive': curReturn = curReturn * .9; break;
@@ -61,8 +59,10 @@ export class YearFactory {
             case 'Conservative': curReturn = curReturn * .6; break;
         }
 
-        const newPortfolio = YearFactory.CreateNewPortfolio(previousYear);
-        newPortfolio.rrspRoom = newPortfolio.rrspRoom + Math.min(income * .18, 26500 + (230 * YearFactory.used.length));
+        const newPortfolio = YearFactory.CreateNewPortfolio(previousYear, newMortgage);
+        const rrspMaxAddition = 26500 + (230 * YearFactory.used.length);
+        const rrspAddition = Math.max(Math.min(income * .18, rrspMaxAddition * 2) - newPortfolio.pension, 0);
+        newPortfolio.rrspRoom = newPortfolio.rrspRoom + rrspAddition;
         newPortfolio.tfsaRoom = newPortfolio.tfsaRoom + 6000;
 
         newPortfolio.tfsaRoom = Math.round(newPortfolio.tfsaRoom);
@@ -70,35 +70,30 @@ export class YearFactory {
         newPortfolio.rrspValue = Math.round(newPortfolio.rrspValue * (1 + curReturn));
         newPortfolio.tfsaValue = Math.round(newPortfolio.tfsaValue * (1 + curReturn));
 
-        return {
+        const newYear = {
             age: previousYear.age + 1,
             ret: Math.round(curReturn * 10000) / 100,
             portfolio: newPortfolio,
-            rrsp: {
-                lump: previousYear.rrsp.lump,
-                contribution: previousYear.rrsp.contribution,
-                period: previousYear.rrsp.period
-            },
-            tfsa: {
-                lump: previousYear.tfsa.lump,
-                contribution: previousYear.tfsa.contribution,
-                period: previousYear.tfsa.period
-            },
-            taxable: {
-                lump: previousYear.taxable.lump,
-                contribution: previousYear.taxable.contribution,
-                period: previousYear.taxable.period
-            },
-            mortgage: {
-                lump: previousYear.mortgage.lump,
-                contribution: previousYear.mortgage.contribution,
-                period: previousYear.mortgage.period
-            },
+            rrsp: Object.create(previousYear.rrsp),
+            tfsa: Object.create(previousYear.tfsa),
+            taxable: Object.create(previousYear.taxable),
+            mortgage: Object.create(previousYear.mortgage),
+        };
 
-          };
-      }
+        if (newYear.portfolio.mortgage.ammortization === 0) {
+            newYear.mortgage.active = false;
+        }
 
-    private static CreateNewPortfolio(previousYear: Year): Portfolio {
+        if (newYear.mortgage.active) {
+            newYear.portfolio.mortgage.active = true;
+        }
+
+        return newYear;
+    }
+
+    private static CreateNewPortfolio(previousYear: Year, newMortgage: Mortgage): Portfolio {
+
+        previousYear.portfolio.mortgage = newMortgage;
         const newPortfolio = Object.create(previousYear.portfolio);
         newPortfolio.age = newPortfolio.age + 1;
 
@@ -114,27 +109,27 @@ export class YearFactory {
         }
 
         if (rrspRollover > 0 && tfsaRollover === 0) {
-            if (rrspRollover > previousYear.portfolio.tfsaRoom - tfsaTotal ) {
+            if (rrspRollover > previousYear.portfolio.tfsaRoom - tfsaTotal) {
                 YearFactory.SetMaxRollover(newPortfolio, rrspRollover, tfsaRollover);
                 return newPortfolio;
             } else {
                 newPortfolio.rrspValue = newPortfolio.rrspValue + newPortfolio.rrspRoom;
                 newPortfolio.tfsaValue = newPortfolio.tfsaValue + rrspRollover;
                 newPortfolio.rrspRoom = 0;
-                newPortfolio.tfsaRoom =  newPortfolio.tfsaRoom - tfsaTotal - rrspRollover;
+                newPortfolio.tfsaRoom = newPortfolio.tfsaRoom - tfsaTotal - rrspRollover;
                 return newPortfolio;
             }
         }
 
         if (rrspRollover === 0 && tfsaRollover > 0) {
-            if (tfsaRollover > previousYear.portfolio.rrspRoom - rrspTotal ) {
+            if (tfsaRollover > previousYear.portfolio.rrspRoom - rrspTotal) {
                 YearFactory.SetMaxRollover(newPortfolio, rrspRollover, tfsaRollover);
                 return newPortfolio;
             } else {
                 newPortfolio.tfsaValue = newPortfolio.tfsaValue + newPortfolio.tfsaRoom;
                 newPortfolio.rrspValue = newPortfolio.rrspValue + tfsaRollover;
                 newPortfolio.tfsaRoom = 0;
-                newPortfolio.rrspRoom =  newPortfolio.rrspRoom - rrspTotal - tfsaRollover;
+                newPortfolio.rrspRoom = newPortfolio.rrspRoom - rrspTotal - tfsaRollover;
                 return newPortfolio;
             }
         }
@@ -172,5 +167,5 @@ export class YearFactory {
 
     private static GenerateRandomNumber(): number {
         return Math.floor(Math.random() * (YearFactory.annualReturns.length));
-      }
+    }
 }
