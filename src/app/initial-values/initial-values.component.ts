@@ -10,8 +10,7 @@ import { Year } from '../models/year.model';
 })
 export class InitialValuesComponent implements OnInit {
   @Input()  model: Portfolio;
-  disable = false;
-
+  @Input()  disable;
   constructor(private summary: SummaryService) { }
 
   ngOnInit() {

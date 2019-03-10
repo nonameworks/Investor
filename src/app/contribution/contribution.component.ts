@@ -9,7 +9,7 @@ import { Contribution } from '../models/contribution.model';
 export class ContributionComponent implements OnInit {
   periods = ['Annually', 'Monthly', 'Semi-monthly', 'Bi-weekly', 'Weekly'];
   @Input() model: Contribution;
-  @Input() disableValue: boolean;
+  @Input() account: string;
 
   constructor() { }
 

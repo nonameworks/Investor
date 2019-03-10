@@ -1,9 +1,5 @@
-<div>
-  
-    <mat-form-field>
-        <input matInput placeholder="Value" type="number" [(ngModel)]="model.value" [disabled] ="disableValue">
-      </mat-form-field>
-      
+<mat-card>
+    <mat-card-title>{{account}}</mat-card-title>
     <mat-form-field>
         <input matInput placeholder="Contribution" type="number" [(ngModel)]="model.contribution" >
       </mat-form-field>
@@ -15,4 +11,4 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-</div>
+</mat-card>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSelectModule, MatButtonModule, MatInputModule, MatTableModule, MatExpansionModule, MatStepperModule} from '@angular/material';
+import {MatSelectModule, MatButtonModule, MatInputModule, MatTableModule, MatExpansionModule, MatStepperModule, MatCardModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -28,7 +28,8 @@ import { SummaryService } from './services/summary.service';
     MatTableModule,
     FormsModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatCardModule
   ],
   providers: [
     SummaryService

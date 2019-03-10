@@ -1,6 +1,5 @@
 import { SummaryService } from './services/summary.service';
 import { Portfolio } from './models/portfolio.model';
-import { Contribution } from './models/contribution.model';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 
