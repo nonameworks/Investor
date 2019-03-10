@@ -10,17 +10,18 @@ import { Year } from '../models/year.model';
 })
 export class InitialValuesComponent implements OnInit {
   @Input()  model: Portfolio;
-  @Input()  disable;
+  @Input()  disable: boolean;
   constructor(private summary: SummaryService) { }
 
   ngOnInit() {
     this.model = {
       age: 32,
-      rrspRoom: 65000,
-      rrspValue: 100000,
+      rrspRoom: 57464,
+      rrspValue: 102577.18,
       taxableValue: 0,
-      tfsaRoom: 12000,
-      tfsaValue: 40000
+      tfsaRoom: 49099.73,
+      tfsaValue: 58831.56,
+      income: 92000
     };
   }
 
@@ -28,8 +29,8 @@ export class InitialValuesComponent implements OnInit {
     const firstYear: Year = {
       age: this.model.age,
       portfolio: this.model,
-      tfsa: {contribution: 450, period: 'Bi-weekly'},
-      rrsp: {contribution: 0, period: 'Bi-weekly'},
+      tfsa: {contribution: 621.18, period: 'Bi-weekly'},
+      rrsp: {contribution: 185.42, period: 'Bi-weekly'},
       taxable: {contribution: 0, period: null},
     };
 

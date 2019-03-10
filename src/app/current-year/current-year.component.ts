@@ -14,9 +14,9 @@ export class CurrentYearComponent implements OnInit {
   constructor(private summary: SummaryService) { }
   @Input() initialValues: Portfolio;
   disable = true;
-
+  income: number;
   strategy: string;
-  risk: string;
+  risk = 'Aggressive';
 
   risks = ['Conservative', 'Cautious', 'Balanced', 'Assertive', 'Aggressive'];
 
@@ -25,7 +25,7 @@ export class CurrentYearComponent implements OnInit {
 
 
   addYear() {
-    const year = YearFactory.CreateYear('Aggressive', this.summary.thisYear);
+    const year = YearFactory.CreateYear('Aggressive', this.income, this.summary.thisYear);
     this.summary.AddYear(year);
   }
 }

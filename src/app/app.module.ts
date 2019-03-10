@@ -1,7 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSelectModule, MatButtonModule, MatInputModule, MatTableModule, MatExpansionModule, MatStepperModule, MatCardModule} from '@angular/material';
+import {MatSelectModule} from '@angular/material';
+import {MatButtonModule} from '@angular/material';
+import {MatInputModule} from '@angular/material';
+import {MatTableModule} from '@angular/material';
+import {MatExpansionModule} from '@angular/material';
+import {MatStepperModule} from '@angular/material';
+import {MatCardModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';

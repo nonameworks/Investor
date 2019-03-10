@@ -5,4 +5,5 @@ export interface Portfolio {
     rrspValue: number;
     tfsaValue: number;
     taxableValue: number;
+    income: number;
 }

@@ -15,9 +15,15 @@ import { SummaryComponent } from './summary/summary.component';
 })
 export class AppComponent implements OnInit {
   title = 'investor';
+  initialExpanded = true;
+  currentExpanded = false;
 
   constructor(private summary: SummaryService) {}
 
   ngOnInit() {
+    this.summary.firstYearAdded.subscribe(() => {
+      this.initialExpanded = false;
+      this.currentExpanded = true;
+    });
   }
 }

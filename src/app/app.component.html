@@ -3,7 +3,7 @@
   <h1>
     Welcome to {{ title }}!
   </h1>
-  <mat-expansion-panel expanded="true">
+  <mat-expansion-panel [expanded]="initialExpanded">
       <mat-expansion-panel-header>
         <mat-panel-title>
             Initial Values
@@ -13,7 +13,7 @@
         <app-initial-values [model]="initialValues" showButton="true"></app-initial-values>
       </mat-expansion-panel>
 
-      <mat-expansion-panel *ngIf="summary.thisYear">
+      <mat-expansion-panel *ngIf="summary.thisYear" [expanded]="currentExpanded">
           <mat-expansion-panel-header>
             <mat-panel-title>
                 Current Year
