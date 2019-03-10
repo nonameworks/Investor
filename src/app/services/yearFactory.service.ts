@@ -1,7 +1,6 @@
 import { Portfolio } from './../models/portfolio.model';
 import { ContributionService } from './contribution.service';
 import { Year } from '../models/year.model';
-import { currentId } from 'async_hooks';
 
 export class YearFactory {
     private static annualReturns = [
@@ -64,8 +63,10 @@ export class YearFactory {
         newPortfolio.rrspRoom = newPortfolio.rrspRoom + Math.min(income * .18, 26500 + (230 * YearFactory.used.length));
         newPortfolio.tfsaRoom = newPortfolio.tfsaRoom + 6000;
 
-        newPortfolio.rrspValue = newPortfolio.rrspValue * curReturn;
-        newPortfolio.tfsaValue = newPortfolio.tfsaValue * curReturn;
+        newPortfolio.tfsaRoom = Math.round(newPortfolio.tfsaRoom);
+        newPortfolio.rrspRoom = Math.round(newPortfolio.rrspRoom);
+        newPortfolio.rrspValue = Math.round(newPortfolio.rrspValue * (1 + curReturn));
+        newPortfolio.tfsaValue = Math.round(newPortfolio.tfsaValue * (1 + curReturn));
 
         return {
             age: previousYear.age + 1,
@@ -77,7 +78,8 @@ export class YearFactory {
       }
 
     private static CreateNewPortfolio(previousYear: Year): Portfolio {
-        const newPortfolio = previousYear.portfolio;
+        const newPortfolio = Object.create(previousYear.portfolio);
+        newPortfolio.age = newPortfolio.age + 1;
 
         const rrspTotal = ContributionService.GetTotal(previousYear.rrsp);
         newPortfolio.rrspValue = newPortfolio.rrspValue + rrspTotal;
@@ -112,9 +114,14 @@ export class YearFactory {
                 newPortfolio.tfsaValue = newPortfolio.tfsaValue + newPortfolio.tfsaRoom;
                 newPortfolio.rrspValue = newPortfolio.rrspValue + tfsaRollover;
                 newPortfolio.rrspRoom =  newPortfolio.rrspRoom - rrspTotal - tfsaRollover;
+                return newPortfolio;
             }
         }
 
+        newPortfolio.tfsaRoom = newPortfolio.tfsaRoom - tfsaTotal;
+        newPortfolio.rrspRoom = newPortfolio.rrspRoom - rrspTotal;
+
+        return newPortfolio;
     }
 
     private static SetMaxRollover(newPortfolio: Portfolio, rrspRollover: number, tfsaRollover: number) {
@@ -131,7 +138,7 @@ export class YearFactory {
         }
 
         YearFactory.used.push(curReturn);
-        return curReturn;
+        return YearFactory.annualReturns[curReturn];
     }
 
     private static GenerateRandomNumber(): number {

@@ -1,3 +1,4 @@
+import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
 import { Portfolio } from './models/portfolio.model';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
   constructor(private summary: SummaryService) {}
 
   ngOnInit() {
-    this.summary.firstYearAdded.subscribe(() => {
+    this.summary.firstYearAdded.subscribe((year: Year) => {
       this.initialExpanded = false;
       this.currentExpanded = true;
     });

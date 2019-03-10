@@ -12,7 +12,7 @@ import { IdName } from '../models/idName.model';
 })
 export class CurrentYearComponent implements OnInit {
   constructor(private summary: SummaryService) { }
-  @Input() initialValues: Portfolio;
+  initialValues: Portfolio;
   disable = true;
   income: number;
   strategy: string;
@@ -21,11 +21,15 @@ export class CurrentYearComponent implements OnInit {
   risks = ['Conservative', 'Cautious', 'Balanced', 'Assertive', 'Aggressive'];
 
   ngOnInit() {
+    this.initialValues = this.summary.firstYear.portfolio;
+    this.summary.thisYear = this.summary.firstYear;
+    this.income = this.initialValues.income;
   }
 
 
   addYear() {
     const year = YearFactory.CreateYear('Aggressive', this.income, this.summary.thisYear);
+    this.initialValues = year.portfolio;
     this.summary.AddYear(year);
   }
 }

@@ -34,7 +34,7 @@ export class InitialValuesComponent implements OnInit {
       taxable: {contribution: 0, period: null},
     };
 
-    this.summary.AddYear(firstYear);
+    this.summary.AddFirstYear(firstYear);
     this.disable = true;
   }
 }

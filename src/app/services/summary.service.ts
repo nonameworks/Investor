@@ -8,18 +8,21 @@ import { Year } from '../models/year.model';
 })
 export class SummaryService {
   dataSource: MatTableDataSource<Year>;
+  firstYear: Year;
   thisYear: Year;
-  firstYearAdded = new EventEmitter();
+  firstYearAdded = new EventEmitter<Year>();
 
   constructor() {
     this.dataSource = new MatTableDataSource();
   }
 
-  AddYear(year: Year): any {
-    if (!this.thisYear) {
-      this.firstYearAdded.emit();
-    }
+  AddFirstYear(year: Year) {
+    this.firstYearAdded.emit(year);
+    this.dataSource = new MatTableDataSource([year]);
+    this.firstYear = year;
+  }
 
+  AddYear(year: Year): any {
     this.thisYear = year;
     const allYears = this.dataSource.data;
     allYears.push(year);
