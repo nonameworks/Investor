@@ -4,20 +4,25 @@
       <th mat-header-cell *matHeaderCellDef> Age </th>
       <td mat-cell *matCellDef="let element"> {{element.age}} </td>
     </ng-container>
+      
+    <ng-container matColumnDef="ret">
+      <th mat-header-cell *matHeaderCellDef> Return </th>
+      <td mat-cell *matCellDef="let element"> {{element.ret}}% </td>
+    </ng-container>
   
     <ng-container matColumnDef="rrsp">
       <th mat-header-cell *matHeaderCellDef> RRSP </th>
-      <td mat-cell *matCellDef="let element"> <app-contribution [model]="element.rrsp" ></app-contribution> </td>
+      <td mat-cell *matCellDef="let element"> {{element.portfolio.rrspValue}} </td>
     </ng-container>
   
     <ng-container matColumnDef="tfsa">
       <th mat-header-cell *matHeaderCellDef> TFSA </th>
-      <td mat-cell *matCellDef="let element"> <app-contribution [model]="element.tfsa" ></app-contribution> </td>
+      <td mat-cell *matCellDef="let element"> {{element.portfolio.tfsaValue}} </td>
     </ng-container>
   
     <ng-container matColumnDef="taxable">
       <th mat-header-cell *matHeaderCellDef> Taxable </th>
-      <td mat-cell *matCellDef="let element"> <app-contribution [model]="element.taxable"></app-contribution> </td>
+      <td mat-cell *matCellDef="let element"> {{element.portfolio.taxableValue}} </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -70,6 +70,7 @@ export class YearFactory {
 
         return {
             age: previousYear.age + 1,
+            ret: Math.round(curReturn * 10000) / 100,
             portfolio: newPortfolio,
             rrsp: { contribution: previousYear.rrsp.contribution, period: previousYear.rrsp.period },
             tfsa: { contribution: previousYear.tfsa.contribution, period: previousYear.tfsa.period },
@@ -82,11 +83,9 @@ export class YearFactory {
         newPortfolio.age = newPortfolio.age + 1;
 
         const rrspTotal = ContributionService.GetTotal(previousYear.rrsp);
-        newPortfolio.rrspValue = newPortfolio.rrspValue + rrspTotal;
         const rrspRollover = Math.max(0, rrspTotal - previousYear.portfolio.rrspRoom);
 
         const tfsaTotal = ContributionService.GetTotal(previousYear.tfsa);
-        newPortfolio.tfsaValue = newPortfolio.tfsaValue + tfsaTotal;
         const tfsaRollover = Math.max(0, tfsaTotal - previousYear.portfolio.tfsaRoom);
 
         if (rrspRollover > 0 && tfsaRollover > 0) {
@@ -101,6 +100,7 @@ export class YearFactory {
             } else {
                 newPortfolio.rrspValue = newPortfolio.rrspValue + newPortfolio.rrspRoom;
                 newPortfolio.tfsaValue = newPortfolio.tfsaValue + rrspRollover;
+                newPortfolio.rrspRoom = 0;
                 newPortfolio.tfsaRoom =  newPortfolio.tfsaRoom - tfsaTotal - rrspRollover;
                 return newPortfolio;
             }
@@ -113,13 +113,16 @@ export class YearFactory {
             } else {
                 newPortfolio.tfsaValue = newPortfolio.tfsaValue + newPortfolio.tfsaRoom;
                 newPortfolio.rrspValue = newPortfolio.rrspValue + tfsaRollover;
+                newPortfolio.tfsaRoom = 0;
                 newPortfolio.rrspRoom =  newPortfolio.rrspRoom - rrspTotal - tfsaRollover;
                 return newPortfolio;
             }
         }
 
-        newPortfolio.tfsaRoom = newPortfolio.tfsaRoom - tfsaTotal;
+        newPortfolio.rrspValue = newPortfolio.rrspValue + rrspTotal;
+        newPortfolio.tfsaValue = newPortfolio.tfsaValue + tfsaTotal;
         newPortfolio.rrspRoom = newPortfolio.rrspRoom - rrspTotal;
+        newPortfolio.tfsaRoom = newPortfolio.tfsaRoom - tfsaTotal;
 
         return newPortfolio;
     }
@@ -127,21 +130,27 @@ export class YearFactory {
     private static SetMaxRollover(newPortfolio: Portfolio, rrspRollover: number, tfsaRollover: number) {
         newPortfolio.rrspValue = newPortfolio.rrspValue + newPortfolio.rrspRoom;
         newPortfolio.tfsaValue = newPortfolio.tfsaValue + newPortfolio.tfsaRoom;
-        newPortfolio.tfsaRoom = 6000;
+        newPortfolio.tfsaRoom = 0;
+        newPortfolio.rrspRoom = 0;
         newPortfolio.taxableValue = newPortfolio.taxableValue + rrspRollover + tfsaRollover;
     }
 
     private static GetReturn(): number {
         let curReturn = YearFactory.GenerateRandomNumber();
-        while (YearFactory.used.includes(curReturn)) {
+        while (curReturn == null || curReturn === undefined || YearFactory.used.includes(curReturn)) {
             curReturn = YearFactory.GenerateRandomNumber();
         }
 
         YearFactory.used.push(curReturn);
-        return YearFactory.annualReturns[curReturn];
+        if (YearFactory.used.length === YearFactory.annualReturns.length) {
+            YearFactory.used = [];
+        }
+
+        const value = YearFactory.annualReturns[curReturn];
+        return value;
     }
 
     private static GenerateRandomNumber(): number {
-        return Math.floor(Math.random() * (YearFactory.annualReturns.length + 1));
+        return Math.floor(Math.random() * (YearFactory.annualReturns.length));
       }
 }

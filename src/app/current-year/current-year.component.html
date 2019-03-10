@@ -3,6 +3,7 @@
     <h3>Values at the beginning of the year</h3>
     <app-initial-values [model]="initialValues" [disable]="disable"></app-initial-values>
 
+    <div *ngIf="!retired">
     <h3>Strategy for this year</h3>
     <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
     <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
@@ -18,5 +19,23 @@
             </mat-option>
         </mat-select>
     </mat-form-field>
-    <button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
+    
+    
+</div>
+<div *ngIf="retired">
+    <mat-form-field *ngIf="initialValues.taxableValue > 0">
+        <input matInput placeholder="Withdraw from taxable" type="number" [(ngModel)]="incomeTax">
+    </mat-form-field>
+    <mat-form-field *ngIf="initialValues.tfsaValue > 0">
+        <input matInput placeholder="Withdraw from TFSA" type="number" [(ngModel)]="incomeTFSA">
+    </mat-form-field>
+    <mat-form-field *ngIf="initialValues.rrspValue > 0">
+        <input matInput placeholder="Withdraw from RRSP" type="number" [(ngModel)]="incomeRRSP">
+    </mat-form-field>
+    </div>
+
+<button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
+<button mat-button class="mat-elevation-z8" *ngIf="!retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
+
+
 </div>

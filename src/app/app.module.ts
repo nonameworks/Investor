@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material';
+import {MatDialogModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material';
 import {MatInputModule} from '@angular/material';
 import {MatTableModule} from '@angular/material';
@@ -16,6 +17,7 @@ import { InitialValuesComponent } from './initial-values/initial-values.componen
 import { SummaryComponent } from './summary/summary.component';
 import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
+import { RetireComponent } from './retire/retire.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { SummaryService } from './services/summary.service';
     ContributionComponent,
     InitialValuesComponent,
     SummaryComponent,
-    CurrentYearComponent
+    CurrentYearComponent,
+    RetireComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +38,15 @@ import { SummaryService } from './services/summary.service';
     FormsModule,
     MatExpansionModule,
     MatStepperModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
+  ],
+  entryComponents: [
+    RetireComponent
   ],
   providers: [
-    SummaryService
+    SummaryService,
+    RetireComponent
   ],
   bootstrap: [AppComponent]
 })

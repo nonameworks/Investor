@@ -19,7 +19,7 @@ export class InitialValuesComponent implements OnInit {
       rrspRoom: 57464,
       rrspValue: 102577.18,
       taxableValue: 0,
-      tfsaRoom: 49099.73,
+      tfsaRoom: 12015.75,
       tfsaValue: 58831.56,
       income: 92000
     };
@@ -28,6 +28,7 @@ export class InitialValuesComponent implements OnInit {
   addFirstYear() {
     const firstYear: Year = {
       age: this.model.age,
+      ret: 0,
       portfolio: this.model,
       tfsa: {contribution: 621.18, period: 'Bi-weekly'},
       rrsp: {contribution: 185.42, period: 'Bi-weekly'},
