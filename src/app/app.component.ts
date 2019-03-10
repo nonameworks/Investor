@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
   title = 'investor';
   initialExpanded = true;
   currentExpanded = false;
+  mortgage = 135000;
+  mortgageYears = 26;
 
   constructor(private summary: SummaryService) {}
 

@@ -2,40 +2,42 @@
 <div>
     <h3>Values at the beginning of the year</h3>
     <app-initial-values [model]="initialValues" [disable]="disable"></app-initial-values>
-
-    <div *ngIf="!retired">
-    <h3>Strategy for this year</h3>
-    <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
-    <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
-    <app-contribution account="Taxable" [model]="summary.thisYear.taxable"></app-contribution>
-    <br/>
     <mat-form-field>
-        <input matInput placeholder="Income" type="number" [(ngModel)]="income">
-    </mat-form-field>
-    <mat-form-field>
-        <mat-select placeholder="Risk Tolerance" [value]="risk">
+        <mat-select placeholder="Risk Tolerance" [(ngModel)]="risk">
             <mat-option *ngFor="let risk of risks" [value]="risk">
-            {{risk}}
+                {{risk}}
             </mat-option>
         </mat-select>
     </mat-form-field>
-    
-    
-</div>
-<div *ngIf="retired">
-    <mat-form-field *ngIf="initialValues.taxableValue > 0">
-        <input matInput placeholder="Withdraw from taxable" type="number" [(ngModel)]="incomeTax">
-    </mat-form-field>
-    <mat-form-field *ngIf="initialValues.tfsaValue > 0">
-        <input matInput placeholder="Withdraw from TFSA" type="number" [(ngModel)]="incomeTFSA">
-    </mat-form-field>
-    <mat-form-field *ngIf="initialValues.rrspValue > 0">
-        <input matInput placeholder="Withdraw from RRSP" type="number" [(ngModel)]="incomeRRSP">
-    </mat-form-field>
+
+
+    <div *ngIf="!retired">
+        <h3>Strategy for this year</h3>
+        <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
+        <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
+        <app-contribution account="Taxable" [model]="summary.thisYear.taxable"></app-contribution>
+        <app-contribution account="Mortgage" [model]="summary.thisYear.mortgage"></app-contribution>
+        <br/>
+        <mat-form-field>
+            <input matInput placeholder="Income" type="number"   [(ngModel)]="income">
+        </mat-form-field>
+
+    </div>
+    <div *ngIf="retired">
+        <mat-form-field *ngIf="initialValues.taxableValue> 0">
+            <input matInput placeholder="Withdraw from taxable"
+                type="number" [(ngModel)]="incomeTax">
+        </mat-form-field>
+        <mat-form-field *ngIf="initialValues.tfsaValue> 0">
+            <input matInput placeholder="Withdraw from TFSA" type="number"
+                [(ngModel)]="incomeTFSA">
+        </mat-form-field>
+        <mat-form-field *ngIf="initialValues.rrspValue> 0">
+            <input matInput placeholder="Withdraw from RRSP" type="number"
+                [(ngModel)]="incomeRRSP">
+        </mat-form-field>
     </div>
 
-<button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
-<button mat-button class="mat-elevation-z8" *ngIf="!retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
-
-
+    <button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
+    <button mat-button class="mat-elevation-z8" *ngIf="!retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
 </div>

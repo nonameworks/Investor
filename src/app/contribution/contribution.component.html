@@ -1,10 +1,16 @@
 <mat-card>
-    <mat-card-title>{{account}}</mat-card-title>
-    <mat-form-field>
+    <mat-card-title>
+        <mat-checkbox [(ngModel)]="show">{{account}}</mat-checkbox>
+    </mat-card-title>
+    <mat-form-field *ngIf="show">
+      <input matInput placeholder="Lump sum" type="number" [(ngModel)]="model.lump" >
+    </mat-form-field>
+
+    <mat-form-field *ngIf="show">
         <input matInput placeholder="Contribution" type="number" [(ngModel)]="model.contribution" >
       </mat-form-field>
       
-      <mat-form-field>
+      <mat-form-field *ngIf="show">
           <mat-select placeholder="Period" [value]="model.period">
             <mat-option *ngFor="let period of periods" [value]="period">
               {{period}}

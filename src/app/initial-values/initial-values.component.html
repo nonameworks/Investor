@@ -1,4 +1,3 @@
-<div >
   <mat-form-field>
     <input matInput placeholder="RRSP Contribution Room" type="number" [(ngModel)]="model.rrspRoom" [disabled]="disable">
   </mat-form-field>
@@ -22,5 +21,8 @@
     <input matInput placeholder="Income" type="number" [(ngModel)]="model.income" [disabled]="disable">
   </mat-form-field>
   <br/>
+  <mat-checkbox [(ngModel)]="mortgage" [disabled]="disable">Mortgage</mat-checkbox>
+  <br/>
+  <app-mortgage *ngIf="mortgage" [model]="model.mortgage" [disable]="disable"></app-mortgage>
+  <br/>
   <button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin-top:20px;" *ngIf="!disable">Add First Year</button>  
-</div>

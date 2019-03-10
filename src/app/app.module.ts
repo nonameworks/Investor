@@ -10,6 +10,7 @@ import {MatExpansionModule} from '@angular/material';
 import {MatStepperModule} from '@angular/material';
 import {MatCardModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionComponent } from './contribution/contribution.component';
@@ -18,6 +19,7 @@ import { SummaryComponent } from './summary/summary.component';
 import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
 import { RetireComponent } from './retire/retire.component';
+import { MortgageComponent } from './mortgage/mortgage.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { RetireComponent } from './retire/retire.component';
     InitialValuesComponent,
     SummaryComponent,
     CurrentYearComponent,
-    RetireComponent
+    RetireComponent,
+    MortgageComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +42,8 @@ import { RetireComponent } from './retire/retire.component';
     MatExpansionModule,
     MatStepperModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     RetireComponent

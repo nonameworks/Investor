@@ -3,7 +3,7 @@ import { Contribution } from './../models/contribution.model';
 export class ContributionService {
     public static GetTotal(contribution: Contribution): number {
         const numContributions = this.GetNumberOfContributions(contribution.period);
-        return contribution.contribution * numContributions;
+        return contribution.contribution * numContributions + (contribution.lump || 0);
     }
 
     private static GetNumberOfContributions(period: string) {

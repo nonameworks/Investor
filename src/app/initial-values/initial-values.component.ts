@@ -11,6 +11,7 @@ import { Year } from '../models/year.model';
 export class InitialValuesComponent implements OnInit {
   @Input()  model: Portfolio;
   @Input()  disable: boolean;
+  mortgage = true;
   constructor(private summary: SummaryService) { }
 
   ngOnInit() {
@@ -21,7 +22,13 @@ export class InitialValuesComponent implements OnInit {
       taxableValue: 0,
       tfsaRoom: 12015.75,
       tfsaValue: 58831.56,
-      income: 92000
+      income: 92000,
+      mortgage: {
+        ammortization: 26,
+        term: 1,
+        principal: 132000,
+        rate: 3.1
+      }
     };
   }
 
@@ -30,9 +37,10 @@ export class InitialValuesComponent implements OnInit {
       age: this.model.age,
       ret: 0,
       portfolio: this.model,
-      tfsa: {contribution: 621.18, period: 'Bi-weekly'},
-      rrsp: {contribution: 185.42, period: 'Bi-weekly'},
-      taxable: {contribution: 0, period: null},
+      tfsa: { lump: 0, contribution: 621.18, period: 'Bi-weekly'},
+      rrsp: { lump: 0, contribution: 185.42, period: 'Bi-weekly'},
+      taxable: { lump: 0, contribution: 0, period: null},
+      mortgage: { lump: 0, contribution: 505, period: 'Bi-weekly'}
     };
 
     this.summary.AddFirstYear(firstYear);

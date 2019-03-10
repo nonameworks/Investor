@@ -8,4 +8,5 @@ export class Year {
     rrsp: Contribution;
     tfsa: Contribution;
     taxable: Contribution;
+    mortgage: Contribution;
 }

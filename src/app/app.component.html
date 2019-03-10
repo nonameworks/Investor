@@ -1,34 +1,33 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
   <mat-expansion-panel [expanded]="initialExpanded">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-            Initial Values
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Initial Values
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-initial-values showButton="true"></app-initial-values>
+    
+  </mat-expansion-panel>
 
-        <app-initial-values showButton="true"></app-initial-values>
-      </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="summary.firstYear" [expanded]="currentExpanded">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Current Year
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-      <mat-expansion-panel *ngIf="summary.firstYear" [expanded]="currentExpanded">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-                Current Year
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+    <app-current-year></app-current-year>
+  </mat-expansion-panel>
 
-            <app-current-year></app-current-year>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel  *ngIf="summary.firstYear">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Summary
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-summary></app-summary>
-              </mat-expansion-panel>    
+  <mat-expansion-panel *ngIf="summary.firstYear">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Summary
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-summary></app-summary>
+  </mat-expansion-panel>
 </div>

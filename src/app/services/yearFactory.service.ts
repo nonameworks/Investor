@@ -51,6 +51,8 @@ export class YearFactory {
     public static CreateYear(riskProfile: string, income: number, previousYear: Year): Year {
         let curReturn = YearFactory.GetReturn();
 
+        // Adjust for inflation to keep everything in today's dollars
+        curReturn = curReturn - .02;
         switch (riskProfile) {
             case 'Aggressive': break;
             case 'Assertive': curReturn = curReturn * .9; break;
@@ -72,9 +74,27 @@ export class YearFactory {
             age: previousYear.age + 1,
             ret: Math.round(curReturn * 10000) / 100,
             portfolio: newPortfolio,
-            rrsp: { contribution: previousYear.rrsp.contribution, period: previousYear.rrsp.period },
-            tfsa: { contribution: previousYear.tfsa.contribution, period: previousYear.tfsa.period },
-            taxable: { contribution: previousYear.taxable.contribution, period: previousYear.taxable.period },
+            rrsp: {
+                lump: previousYear.rrsp.lump,
+                contribution: previousYear.rrsp.contribution,
+                period: previousYear.rrsp.period
+            },
+            tfsa: {
+                lump: previousYear.tfsa.lump,
+                contribution: previousYear.tfsa.contribution,
+                period: previousYear.tfsa.period
+            },
+            taxable: {
+                lump: previousYear.taxable.lump,
+                contribution: previousYear.taxable.contribution,
+                period: previousYear.taxable.period
+            },
+            mortgage: {
+                lump: previousYear.mortgage.lump,
+                contribution: previousYear.mortgage.contribution,
+                period: previousYear.mortgage.period
+            },
+
           };
       }
 
