@@ -27,7 +27,7 @@ export class CurrentYearComponent implements OnInit {
   incomeTFSA: number;
   incomeRRSP: number;
   get showNewMortgage() {
-    const ret = this.newMortgage.ammortization > 1
+    const ret = this.newMortgage.ammortization > 1 && this.newMortgage.principal > 0
       && ((this.summary.thisYear.mortgage.active && !this.initialValues.mortgage.active)
         || (this.initialValues.mortgage.active && this.initialValues.mortgage.term === 1));
     return ret;
@@ -36,17 +36,29 @@ export class CurrentYearComponent implements OnInit {
 
   ngOnInit() {
     this.initialValues = this.summary.firstYear.portfolio;
-    this.newMortgage = MortgageFactory.CreateMortgage(this.initialValues.mortgage);
     this.summary.thisYear = this.summary.firstYear;
     this.income = this.initialValues.income;
+
+    this.newMortgage = Object.create(this.initialValues.mortgage);
   }
 
 
   addYear() {
+    const hadMortgage = this.initialValues.mortgage.active;
     const year = YearFactory.CreateYear(this.risk, this.income, this.summary.thisYear, this.newMortgage);
     this.retirementAdjustments(year);
-    this.initialValues = year.portfolio;
-    this.newMortgage = MortgageFactory.CreateMortgage(year.portfolio.mortgage);
+    this.newMortgage = MortgageFactory.CreateMortgage(year.portfolio.mortgage, this.summary.thisYear.mortgage);
+    this.initialValues = Object.create(year.portfolio);
+    this.initialValues.mortgage = Object.create(year.portfolio.mortgage);
+    this.initialValues.mortgage.principal = this.newMortgage.principal;
+    if (hadMortgage && this.newMortgage.principal <= 0) {
+      this.dialog.open(RetireComponent, {
+        data: {
+          text: 'Mortgage is paid off'
+        }
+      });
+      this.initialValues.mortgage.active = false;
+    }
     this.calculateRetirementIncome(year);
     this.summary.AddYear(year);
   }

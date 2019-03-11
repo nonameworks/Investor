@@ -26,6 +26,7 @@ export class SummaryService {
     this.thisYear = year;
     const allYears = this.dataSource.data;
     allYears.push(year);
+    this.thisYear.mortgage.active = false;
     this.dataSource.data = allYears;
   }
 }

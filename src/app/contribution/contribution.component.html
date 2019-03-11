@@ -13,7 +13,7 @@
   </mat-form-field>
 
   <mat-form-field *ngIf="model.active">
-    <mat-select placeholder="Period" [value]="model.period">
+    <mat-select placeholder="Period" [(ngModel)]="model.period">
       <mat-option *ngFor="let period of periods" [value]="period">
         {{period}}
       </mat-option>

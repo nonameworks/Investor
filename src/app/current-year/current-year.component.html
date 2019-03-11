@@ -20,11 +20,8 @@
 
             <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
             <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
-            <app-contribution account="Taxable"
-                [model]="summary.thisYear.taxable"></app-contribution>
             <mat-form-field>
-                <input matInput placeholder="Income" type="number"
-                    [(ngModel)]="income">
+                <input matInput placeholder="Income" type="number" [(ngModel)]="income">
             </mat-form-field>
 
         </div>

@@ -4,7 +4,7 @@ import { ContributionService } from './contribution.service';
 import { Year } from '../models/year.model';
 
 export class YearFactory {
-    private static annualReturns = [
+    private static tsxAnnualReturns = [
         0.248035814115241,
         -0.141607741351603,
         0.0004750998992316,
@@ -45,6 +45,40 @@ export class YearFactory {
         0.0548129613640138,
         -0.116601080242822,
         0.129364070165608
+    ];
+
+    private static spAnnualReturns = [
+        0.123917419087396,
+        0.272504654787179,
+        -0.0655913791554846,
+        0.263143491345482,
+        0.0447929214799725,
+        0.0705760825179872,
+        -0.0155195405131822,
+        0.341281777556098,
+        0.202636660689456,
+        0.310081818317923,
+        0.266685890653423,
+        0.19526046704458,
+        -0.101391846860643,
+        -0.130426931573317,
+        -0.233659639816933,
+        0.263803999856075,
+        0.0899345241050444,
+        0.030010226483225,
+        0.136194317577183,
+        0.0354928703699547,
+        -0.384694497950326,
+        0.234897383524705,
+        0.126352321904074,
+        -1.59181629424137E-05,
+        0.13292181655929,
+        0.296012495855908,
+        0.115414992865778,
+        -0.00726599723739266,
+        0.0984349582098483,
+        0.187442551754512,
+        -0.0659082259833011,
     ];
 
     private static used: number[] = [];
@@ -157,15 +191,15 @@ export class YearFactory {
         }
 
         YearFactory.used.push(curReturn);
-        if (YearFactory.used.length === YearFactory.annualReturns.length) {
+        if (YearFactory.used.length === YearFactory.spAnnualReturns.length) {
             YearFactory.used = [];
         }
 
-        const value = YearFactory.annualReturns[curReturn];
+        const value = YearFactory.spAnnualReturns[curReturn];
         return value;
     }
 
     private static GenerateRandomNumber(): number {
-        return Math.floor(Math.random() * (YearFactory.annualReturns.length));
+        return Math.floor(Math.random() * (YearFactory.spAnnualReturns.length));
     }
 }

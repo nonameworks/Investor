@@ -6,4 +6,5 @@ export interface Mortgage {
     principal: number;
     originalAmmortization: number;
     originalTerm: number;
+    originalPrincipal: number;
 }

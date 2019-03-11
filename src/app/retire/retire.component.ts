@@ -17,7 +17,7 @@ export class RetireComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<RetireComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Retire) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
   }

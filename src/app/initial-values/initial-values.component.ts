@@ -1,3 +1,4 @@
+import { MortgageFactory } from './../services/mortgageFactory.service';
 import { SummaryService } from './../services/summary.service';
 import { Portfolio } from './../models/portfolio.model';
 import { Component, OnInit, Input } from '@angular/core';
@@ -25,15 +26,7 @@ export class InitialValuesComponent implements OnInit {
         tfsaValue: 58832,
         income: 134000,
         pension: 5667,
-        mortgage: {
-          active: true,
-          ammortization: 26,
-          term: 1,
-          rate: 3.1,
-          principal: 132000,
-          originalAmmortization: 30,
-          originalTerm: 5
-        }
+        mortgage: MortgageFactory.CreateNewMortgage()
       };
     }
   }
@@ -46,7 +39,7 @@ export class InitialValuesComponent implements OnInit {
       tfsa: { active: true, lump: 0, contribution: 621.18, period: 'Bi-weekly'},
       rrsp: { active: true, lump: 3500, contribution: 185.42, period: 'Bi-weekly'},
       taxable: { active: false, lump: 0, contribution: 0, period: null},
-      mortgage: { active: this.model.mortgage.active, lump: 0, contribution: 505, period: 'Bi-weekly'}
+      mortgage: { active: this.model.mortgage.active, lump: 0, contribution: 280.688, period: 'Bi-weekly'}
     };
 
     this.summary.AddFirstYear(firstYear);
