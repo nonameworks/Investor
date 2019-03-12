@@ -6,14 +6,10 @@ import { Contribution } from '../models/contribution.model';
   templateUrl: './contribution.component.html',
   styleUrls: ['./contribution.component.css']
 })
-export class ContributionComponent implements OnInit {
+export class ContributionComponent {
   periods = ['Annually', 'Monthly', 'Semi-monthly', 'Bi-weekly', 'Weekly'];
   @Input() model: Contribution;
   @Input() account: string;
 
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

@@ -83,7 +83,7 @@ export class YearFactory {
 
     private static used: number[] = [];
 
-    public static CreateYear(riskProfile: string, income: number, previousYear: Year, newMortgage: Mortgage): Year {
+    public static CreateYear(riskProfile: string, income: number, previousYear: Year): Year {
         let curReturn = YearFactory.GetReturn();
         switch (riskProfile) {
             case 'Aggressive': break;
@@ -93,7 +93,7 @@ export class YearFactory {
             case 'Conservative': curReturn = curReturn * .6; break;
         }
 
-        const newPortfolio = YearFactory.CreateNewPortfolio(previousYear, newMortgage);
+        const newPortfolio = YearFactory.CreateNewPortfolio(previousYear);
         const rrspMaxAddition = 26500 + (230 * YearFactory.used.length);
         const rrspAddition = Math.max(Math.min(income * .18, rrspMaxAddition * 2) - newPortfolio.pension, 0);
         newPortfolio.rrspRoom = newPortfolio.rrspRoom + rrspAddition;
@@ -111,23 +111,14 @@ export class YearFactory {
             rrsp: Object.create(previousYear.rrsp),
             tfsa: Object.create(previousYear.tfsa),
             taxable: Object.create(previousYear.taxable),
-            mortgage: Object.create(previousYear.mortgage),
+            mortgageContribution: Object.create(previousYear.mortgageContribution),
         };
-
-        if (newYear.portfolio.mortgage.ammortization === 0) {
-            newYear.mortgage.active = false;
-        }
-
-        if (newYear.mortgage.active) {
-            newYear.portfolio.mortgage.active = true;
-        }
 
         return newYear;
     }
 
-    private static CreateNewPortfolio(previousYear: Year, newMortgage: Mortgage): Portfolio {
+    private static CreateNewPortfolio(previousYear: Year): Portfolio {
 
-        previousYear.portfolio.mortgage = newMortgage;
         const newPortfolio = Object.create(previousYear.portfolio);
         newPortfolio.age = newPortfolio.age + 1;
 

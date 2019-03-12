@@ -1,3 +1,4 @@
+import { MortgageService } from './services/mortgage.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,6 +21,7 @@ import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
 import { RetireComponent } from './retire/retire.component';
 import { MortgageComponent } from './mortgage/mortgage.component';
+import { MortgagePaymentComponent } from './mortgage-payment/mortgage-payment.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { MortgageComponent } from './mortgage/mortgage.component';
     SummaryComponent,
     CurrentYearComponent,
     RetireComponent,
-    MortgageComponent
+    MortgageComponent,
+    MortgagePaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { MortgageComponent } from './mortgage/mortgage.component';
   ],
   providers: [
     SummaryService,
-    RetireComponent
+    RetireComponent,
+    MortgageService
   ],
   bootstrap: [AppComponent]
 })

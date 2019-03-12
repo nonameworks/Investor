@@ -1,3 +1,4 @@
+import { MortgageService } from './mortgage.service';
 import { YearFactory } from './yearFactory.service';
 import { Injectable, EventEmitter, Output, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
@@ -12,7 +13,7 @@ export class SummaryService {
   thisYear: Year;
   firstYearAdded = new EventEmitter<Year>();
 
-  constructor() {
+  constructor(private mortgage: MortgageService) {
     this.dataSource = new MatTableDataSource();
   }
 
@@ -22,11 +23,12 @@ export class SummaryService {
     this.firstYear = year;
   }
 
-  AddYear(year: Year): any {
+  AddYear(year: Year) {
+    this.mortgage.AddYear();
     this.thisYear = year;
     const allYears = this.dataSource.data;
     allYears.push(year);
-    this.thisYear.mortgage.active = false;
+    this.thisYear.mortgageContribution.active = false;
     this.dataSource.data = allYears;
   }
 }

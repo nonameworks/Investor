@@ -8,6 +8,5 @@ export interface Portfolio {
     tfsaValue: number;
     taxableValue: number;
     income: number;
-    mortgage: Mortgage;
     pension: number;
 }

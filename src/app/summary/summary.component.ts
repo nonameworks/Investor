@@ -10,7 +10,7 @@ import { SummaryService } from '../services/summary.service';
 })
 export class SummaryComponent implements OnInit {
 
-  displayedColumns = ['age', 'ret', 'rrsp', 'tfsa', 'taxable', 'mortgage'];
+  displayedColumns = ['age', 'ret', 'rrsp', 'tfsa', 'taxable'];
 
   constructor(public summary: SummaryService) { }
 

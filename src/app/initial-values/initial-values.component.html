@@ -24,8 +24,8 @@
     <input matInput placeholder="Income" type="number" [(ngModel)]="model.income" [disabled]="disable">
   </mat-form-field>
   <br/>
-  <mat-checkbox [(ngModel)]="model.mortgage.active" [disabled]="disable">Mortgage</mat-checkbox>
+  <mat-checkbox [(ngModel)]="mortgageService.initialMortgage.active" [disabled]="disable">Mortgage</mat-checkbox>
   <br/>
-  <app-mortgage *ngIf="model.mortgage.active" [model]="model.mortgage" [disable]="disable"></app-mortgage>
+  <app-mortgage *ngIf="mortgageService.initialMortgage.active" [model]="mortgageService.initialMortgage" [disable]="disable"></app-mortgage>
   <br/>
   <button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin-top:20px;" *ngIf="!disable">Add First Year</button>  

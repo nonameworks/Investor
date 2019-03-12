@@ -7,6 +7,7 @@
       [(ngModel)]="model.lump">
   </mat-form-field>
 
+  <mat-checkbox *ngIf="account == 'Mortgage'" [(ngModel)]="CalculatePayment">Calculate Payment</mat-checkbox>
   <mat-form-field *ngIf="model.active">
     <input matInput placeholder="Contribution" type="number"
       [(ngModel)]="model.contribution">

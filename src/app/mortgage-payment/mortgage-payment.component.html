@@ -1,0 +1,17 @@
+
+  <mat-form-field *ngIf="mortgageService.currentMortgage.active">
+    <input matInput placeholder="Lump sum" type="number" [(ngModel)]="mortgageService.payment.lump">
+  </mat-form-field>
+
+  <button mat-button (click)="CalculatePayment()">Calculate Payment</button>
+  <mat-form-field *ngIf="mortgageService.currentMortgage.active">
+    <input matInput placeholder="Contribution" type="number"  [(ngModel)]="mortgageService.payment.contribution">
+  </mat-form-field>
+
+  <mat-form-field *ngIf="mortgageService.currentMortgage.active">
+    <mat-select placeholder="Period" [(ngModel)]="mortgageService.payment.period">
+      <mat-option *ngFor="let period of periods" [value]="period">
+        {{period}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
