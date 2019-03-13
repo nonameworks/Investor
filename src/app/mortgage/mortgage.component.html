@@ -1,12 +1,35 @@
-<mat-form-field>
-    <input matInput placeholder="Ammortization" type="number" [disabled]="disable" [(ngModel)]="model.ammortization">
-</mat-form-field>
-<mat-form-field>
-    <input matInput placeholder="Term" type="number"  [disabled]="disable"  [(ngModel)]="model.term">
-</mat-form-field>
-<mat-form-field>
-    <input matInput placeholder="Rate" type="number"   [disabled]="disable" [(ngModel)]="model.rate">
-</mat-form-field>
-<mat-form-field>
-    <input matInput placeholder="Remaining Principal" type="number"  [disabled]="disable"  [(ngModel)]="model.principal">
-</mat-form-field>
+<mat-card>
+    <mat-form-field>
+        <input matInput placeholder="Ammortization" type="number" [disabled]="disable" [(ngModel)]="model.mortgage.ammortization">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Term" type="number" [disabled]="!model.mortgage.open" [(ngModel)]="model.mortgage.term">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Rate" type="number" [disabled]="!model.mortgage.open" [(ngModel)]="model.mortgage.rate">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Remaining Principal" type="number" [disabled]="disable" [(ngModel)]="model.mortgage.principal">
+    </mat-form-field>
+
+    <br />
+
+    <mat-form-field>
+        <input matInput placeholder="Lump sum" type="number" [(ngModel)]="model.payment.lump">
+    </mat-form-field>
+
+    
+    <mat-form-field>
+        <input matInput placeholder="Contribution" type="number" [(ngModel)]="model.payment.contribution">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-select placeholder="Period" [(ngModel)]="model.payment.period">
+            <mat-option *ngFor="let period of periods" [value]="period">
+                {{period}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="CalculatePayment()">Calculate Payment</button>
+    <ng-content></ng-content>
+</mat-card>

@@ -1,3 +1,4 @@
+import { MortgageService } from './services/mortgage.service';
 import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
 import { Portfolio } from './models/portfolio.model';
@@ -21,7 +22,7 @@ export class AppComponent implements OnInit {
   mortgage = 135000;
   mortgageYears = 26;
 
-  constructor(private summary: SummaryService) {}
+  constructor(private summary: SummaryService, private mortgageService: MortgageService) {}
 
   ngOnInit() {
     this.summary.firstYearAdded.subscribe((year: Year) => {

@@ -1,5 +1,6 @@
+import { Contribution } from './contribution.model';
+
 export interface Mortgage {
-    active: boolean;
     ammortization: number;
     term: number;
     rate: number;
@@ -7,4 +8,6 @@ export interface Mortgage {
     originalAmmortization: number;
     originalTerm: number;
     originalPrincipal: number;
+    open: boolean;
+    started: boolean;
 }

@@ -1,3 +1,4 @@
+import { Contribution } from './../models/contribution.model';
 import { Mortgage } from './../models/mortgage.model';
 import { Portfolio } from './../models/portfolio.model';
 import { ContributionService } from './contribution.service';
@@ -83,16 +84,8 @@ export class YearFactory {
 
     private static used: number[] = [];
 
-    public static CreateYear(riskProfile: string, income: number, previousYear: Year): Year {
-        let curReturn = YearFactory.GetReturn();
-        switch (riskProfile) {
-            case 'Aggressive': break;
-            case 'Assertive': curReturn = curReturn * .9; break;
-            case 'Balanced': curReturn = curReturn * .8; break;
-            case 'Cautious': curReturn = curReturn * .7; break;
-            case 'Conservative': curReturn = curReturn * .6; break;
-        }
-
+    public static CreateYear(income: number, previousYear: Year): Year {
+        const curReturn = YearFactory.GetReturn();
         const newPortfolio = YearFactory.CreateNewPortfolio(previousYear);
         const rrspMaxAddition = 26500 + (230 * YearFactory.used.length);
         const rrspAddition = Math.max(Math.min(income * .18, rrspMaxAddition * 2) - newPortfolio.pension, 0);
@@ -101,8 +94,8 @@ export class YearFactory {
 
         newPortfolio.tfsaRoom = Math.round(newPortfolio.tfsaRoom);
         newPortfolio.rrspRoom = Math.round(newPortfolio.rrspRoom);
-        newPortfolio.rrspValue = Math.round(newPortfolio.rrspValue * (1 + curReturn));
-        newPortfolio.tfsaValue = Math.round(newPortfolio.tfsaValue * (1 + curReturn));
+        newPortfolio.rrspValue = Math.round(newPortfolio.rrspValue * (1 + YearFactory.AdjustReturn(curReturn, previousYear.rrsp)));
+        newPortfolio.tfsaValue = Math.round(newPortfolio.tfsaValue * (1 + YearFactory.AdjustReturn(curReturn, previousYear.tfsa)));
 
         const newYear = {
             age: previousYear.age + 1,
@@ -110,15 +103,13 @@ export class YearFactory {
             portfolio: newPortfolio,
             rrsp: Object.create(previousYear.rrsp),
             tfsa: Object.create(previousYear.tfsa),
-            taxable: Object.create(previousYear.taxable),
-            mortgageContribution: Object.create(previousYear.mortgageContribution),
+            taxable: Object.create(previousYear.taxable)
         };
 
         return newYear;
     }
 
     private static CreateNewPortfolio(previousYear: Year): Portfolio {
-
         const newPortfolio = Object.create(previousYear.portfolio);
         newPortfolio.age = newPortfolio.age + 1;
 
@@ -192,5 +183,15 @@ export class YearFactory {
 
     private static GenerateRandomNumber(): number {
         return Math.floor(Math.random() * (YearFactory.spAnnualReturns.length));
+    }
+
+    private static AdjustReturn(curReturn: number, contribution: Contribution): number {
+        switch (contribution.risk) {
+            case 'Aggressive': return curReturn;
+            case 'Assertive': return curReturn * .9;
+            case 'Balanced': return curReturn * .8;
+            case 'Cautious': return curReturn * .7;
+            case 'Conservative': return curReturn * .6;
+        }
     }
 }

@@ -1,16 +1,21 @@
+<mat-card>
+  <mat-card-title>
+    Investments
+  </mat-card-title>
+
   <mat-form-field>
     <input matInput placeholder="RRSP Contribution Room" type="number" [(ngModel)]="model.rrspRoom" [disabled]="disable">
   </mat-form-field>
   <mat-form-field>
-      <input matInput placeholder="Pension adjustment" type="number" [(ngModel)]="model.pension" [disabled]="disable">
-    </mat-form-field>
+    <input matInput placeholder="Pension adjustment" type="number" [(ngModel)]="model.pension" [disabled]="disable">
+  </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="TFSA Contribution Room" type="number" [(ngModel)]="model.tfsaRoom" [disabled]="disable">
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Age" type="number" [(ngModel)]="model.age" [disabled]="disable">
   </mat-form-field>
-  <br/>
+  <br />
   <mat-form-field>
     <input matInput placeholder="RRSP Portfolio Value" type="number" [(ngModel)]="model.rrspValue" [disabled]="disable">
   </mat-form-field>
@@ -23,9 +28,11 @@
   <mat-form-field>
     <input matInput placeholder="Income" type="number" [(ngModel)]="model.income" [disabled]="disable">
   </mat-form-field>
-  <br/>
-  <mat-checkbox [(ngModel)]="mortgageService.initialMortgage.active" [disabled]="disable">Mortgage</mat-checkbox>
-  <br/>
-  <app-mortgage *ngIf="mortgageService.initialMortgage.active" [model]="mortgageService.initialMortgage" [disable]="disable"></app-mortgage>
-  <br/>
-  <button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin-top:20px;" *ngIf="!disable">Add First Year</button>  
+</mat-card>
+<br />
+<app-mortgage *ngFor="let mortgage of mortgages" [model]="mortgage" [disable]="disable">
+    <button mat-button color="primary" (click)="RemoveMortgage(mortgage)">Remove this Mortgage</button>
+</app-mortgage>
+<br />
+<button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin:10px;" *ngIf="!disable">Add First Year</button>
+<button mat-button class="mat-elevation-z8" (click)="addMortgage()" style="margin:10px;" *ngIf="!disable">Add Mortgage</button>

@@ -1,6 +1,7 @@
 export interface Contribution {
     active: boolean;
-    lump: number;
+    lump?: number;
     period: string;
     contribution: number;
+    risk: string;
 }

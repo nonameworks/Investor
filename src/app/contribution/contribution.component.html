@@ -20,4 +20,12 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field *ngIf="model.active">
+    <mat-select placeholder="Period" [(ngModel)]="model.risk">
+      <mat-option *ngFor="let risk of risks" [value]="risk">
+        {{risk}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-card>

@@ -1,27 +1,13 @@
 <div>
     <h3>Values at the beginning of the year</h3>
     <app-initial-values [model]="initialValues" [disable]="disable"></app-initial-values>
-    <mat-form-field>
-        <mat-select placeholder="Risk Tolerance" [(ngModel)]="risk">
-            <mat-option *ngFor="let risk of risks" [value]="risk">
-                {{risk}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <h3>Strategy for this year</h3>
-
-    <mat-card *ngIf="mortgageService.currentMortgage.active">
-        <mat-card-title>Mortgage</mat-card-title>
-        <app-mortgage-payment account="Mortgage"></app-mortgage-payment>
-        <br/>
-        <app-mortgage [model]="mortgageService.currentMortgage"></app-mortgage>
-    </mat-card>
+    <app-mortgage *ngFor="let model of mortgages" [model]="model" [disable]="disable"></app-mortgage>
     <br />
     <div *ngIf="!retired">
 
         <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
         <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
+        <br/>
         <mat-form-field>
             <input matInput placeholder="Income" type="number" [(ngModel)]="income">
         </mat-form-field>

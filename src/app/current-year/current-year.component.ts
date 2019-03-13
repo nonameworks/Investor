@@ -1,3 +1,4 @@
+import { MortgageContract } from './../models/mortgage-contract.model';
 import { MortgageService } from './../services/mortgage.service';
 import { Mortgage } from './../models/mortgage.model';
 import { SummaryService } from './../services/summary.service';
@@ -20,13 +21,12 @@ export class CurrentYearComponent implements OnInit {
   disable = true;
   income: number;
   strategy: string;
-  risk = 'Aggressive';
-  risks = ['Conservative', 'Cautious', 'Balanced', 'Assertive', 'Aggressive'];
   incomeTax: number;
   incomeTFSA: number;
   incomeRRSP: number;
   calculatedPayment: number;
   private retired = false;
+  @Input() mortgages: MortgageContract[];
 
   ngOnInit() {
     this.initialValues = this.summary.firstYear.portfolio;
@@ -36,7 +36,7 @@ export class CurrentYearComponent implements OnInit {
 
 
   addYear() {
-    const year = YearFactory.CreateYear(this.risk, this.income, this.summary.thisYear);
+    const year = YearFactory.CreateYear(this.income, this.summary.thisYear);
     this.retirementAdjustments(year);
     this.initialValues = Object.create(year.portfolio);
     this.calculateRetirementIncome(year);

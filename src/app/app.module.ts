@@ -21,7 +21,6 @@ import { CurrentYearComponent } from './current-year/current-year.component';
 import { SummaryService } from './services/summary.service';
 import { RetireComponent } from './retire/retire.component';
 import { MortgageComponent } from './mortgage/mortgage.component';
-import { MortgagePaymentComponent } from './mortgage-payment/mortgage-payment.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +30,7 @@ import { MortgagePaymentComponent } from './mortgage-payment/mortgage-payment.co
     SummaryComponent,
     CurrentYearComponent,
     RetireComponent,
-    MortgageComponent,
-    MortgagePaymentComponent
+    MortgageComponent
   ],
   imports: [
     BrowserModule,

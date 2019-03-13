@@ -8,7 +8,7 @@
         Initial Values
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <app-initial-values showButton="true"></app-initial-values>
+    <app-initial-values showButton="true" [mortgages]="mortgageService.initialMortgages"></app-initial-values>
     
   </mat-expansion-panel>
 
@@ -19,7 +19,7 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <app-current-year></app-current-year>
+    <app-current-year [mortgages]="mortgageService.currentMortgages"></app-current-year>
   </mat-expansion-panel>
 
   <mat-expansion-panel *ngIf="summary.firstYear">

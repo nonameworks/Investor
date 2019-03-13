@@ -8,6 +8,8 @@ import { Contribution } from '../models/contribution.model';
 })
 export class ContributionComponent {
   periods = ['Annually', 'Monthly', 'Semi-monthly', 'Bi-weekly', 'Weekly'];
+  risk = 'Aggressive';
+  risks = ['Conservative', 'Cautious', 'Balanced', 'Assertive', 'Aggressive'];
   @Input() model: Contribution;
   @Input() account: string;
 
