@@ -1,7 +1,15 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, Input } from '@angular/core';
 import { Year } from '../models/year.model';
-import { SummaryService } from '../services/summary.service';
+import { SummaryService, YearSummary } from '../services/summary.service';
+
+
+export interface Element {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
 
 @Component({
   selector: 'app-summary',
@@ -10,11 +18,8 @@ import { SummaryService } from '../services/summary.service';
 })
 export class SummaryComponent implements OnInit {
 
-  displayedColumns = ['age', 'ret', 'rrsp', 'tfsa', 'taxable'];
-
   constructor(public summary: SummaryService) { }
 
   ngOnInit() {
   }
-
 }

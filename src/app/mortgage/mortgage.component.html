@@ -1,6 +1,6 @@
 <mat-card>
     <mat-form-field>
-        <input matInput placeholder="Ammortization" type="number" [disabled]="disable" [(ngModel)]="model.mortgage.ammortization">
+        <input matInput placeholder="Ammortization" type="number" [disabled]="model.mortgage.started" [(ngModel)]="model.mortgage.ammortization">
     </mat-form-field>
     <mat-form-field>
         <input matInput placeholder="Term" type="number" [disabled]="!model.mortgage.open" [(ngModel)]="model.mortgage.term">
@@ -9,7 +9,7 @@
         <input matInput placeholder="Rate" type="number" [disabled]="!model.mortgage.open" [(ngModel)]="model.mortgage.rate">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Remaining Principal" type="number" [disabled]="disable" [(ngModel)]="model.mortgage.principal">
+        <input matInput placeholder="Remaining Principal" type="number" [disabled]="model.mortgage.started" [(ngModel)]="model.mortgage.principal">
     </mat-form-field>
 
     <br />

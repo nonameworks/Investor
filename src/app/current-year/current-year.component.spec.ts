@@ -1,25 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CurrentYearComponent } from './current-year.component';
+import { TestBed } from '@angular/core/testing';
 
 describe('CurrentYearComponent', () => {
-  let component: CurrentYearComponent;
-  let fixture: ComponentFixture<CurrentYearComponent>;
+  beforeEach(() => TestBed.configureTestingModule({}));
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CurrentYearComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CurrentYearComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
+  it('should be created', () => {
+    const component: CurrentYearComponent = TestBed.get(CurrentYearComponent);
     expect(component).toBeTruthy();
   });
 });

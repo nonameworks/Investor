@@ -30,9 +30,4 @@
   </mat-form-field>
 </mat-card>
 <br />
-<app-mortgage *ngFor="let mortgage of mortgages" [model]="mortgage" [disable]="disable">
-    <button mat-button color="primary" (click)="RemoveMortgage(mortgage)">Remove this Mortgage</button>
-</app-mortgage>
-<br />
 <button mat-button class="mat-elevation-z8" (click)="addFirstYear()" style="margin:10px;" *ngIf="!disable">Add First Year</button>
-<button mat-button class="mat-elevation-z8" (click)="addMortgage()" style="margin:10px;" *ngIf="!disable">Add Mortgage</button>

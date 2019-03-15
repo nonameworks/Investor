@@ -3,5 +3,5 @@ export interface Contribution {
     lump?: number;
     period: string;
     contribution: number;
-    risk: string;
+    risk?: string;
 }

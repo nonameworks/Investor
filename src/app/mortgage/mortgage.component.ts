@@ -9,15 +9,19 @@ import { MortgageService } from '../services/mortgage.service';
 })
 export class MortgageComponent implements OnInit {
   @Input() model: MortgageContract;
-  @Input() disable: boolean;
+  disable: boolean;
   periods = ['Annually', 'Monthly', 'Semi-monthly', 'Bi-weekly', 'Weekly'];
 
   constructor(private mortgageService: MortgageService) { }
 
   ngOnInit() {
+    this.disable = false;
   }
 
   CalculatePayment() {
+    if (!this.model.mortgage.started) {
+      this.mortgageService.setOriginals(this.model.mortgage);
+    }
     this.model.payment.contribution = this.mortgageService.GetRequiredPayment(this.model);
   }
 }

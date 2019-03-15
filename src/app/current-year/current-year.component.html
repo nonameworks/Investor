@@ -1,7 +1,8 @@
 <div>
-    <h3>Values at the beginning of the year</h3>
-    <app-initial-values [model]="initialValues" [disable]="disable"></app-initial-values>
-    <app-mortgage *ngFor="let model of mortgages" [model]="model" [disable]="disable"></app-mortgage>
+    <app-initial-values [model]="initialValues" [disable]="true"></app-initial-values>
+    <app-mortgage *ngFor="let contract of mortgageService.mortgages" [model]="contract">
+        <button mat-button *ngIf="!contract.mortgage.started" (click)="mortgageService.removeMortgage(contract)">Remove this mortgage</button>
+    </app-mortgage>
     <br />
     <div *ngIf="!retired">
 
@@ -27,4 +28,5 @@
 
     <button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
     <button mat-button class="mat-elevation-z8" *ngIf="!retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
+    <button mat-button class="mat-elevation-z8" (click)="mortgageService.addMortgage()" style="margin-top:20px;margin-left:20px;">Add Mortgage</button>
 </div>

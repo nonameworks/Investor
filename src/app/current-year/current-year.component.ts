@@ -18,7 +18,6 @@ import { MatDialog } from '@angular/material';
 export class CurrentYearComponent implements OnInit {
   constructor(private summary: SummaryService, public mortgageService: MortgageService, private dialog: MatDialog) { }
   initialValues: Portfolio;
-  disable = true;
   income: number;
   strategy: string;
   incomeTax: number;
@@ -26,14 +25,12 @@ export class CurrentYearComponent implements OnInit {
   incomeRRSP: number;
   calculatedPayment: number;
   private retired = false;
-  @Input() mortgages: MortgageContract[];
 
   ngOnInit() {
     this.initialValues = this.summary.firstYear.portfolio;
     this.summary.thisYear = this.summary.firstYear;
     this.income = this.initialValues.income;
   }
-
 
   addYear() {
     const year = YearFactory.CreateYear(this.income, this.summary.thisYear);

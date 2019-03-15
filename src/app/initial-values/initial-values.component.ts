@@ -43,31 +43,8 @@ export class InitialValuesComponent implements OnInit {
       taxable: { active: true,  risk: 'Aggressive', lump: 0, contribution: 0, period: null }
     };
 
-    this.mortgageService.CopyInitialToCurrent();
     this.summary.AddFirstYear(firstYear);
     this.disable = true;
-  }
-
-  addMortgage() {
-    this.mortgages.push({
-      mortgage: {
-        ammortization: 25,
-        open: true,
-        term: 5,
-        rate: 3.5,
-        principal: 150000,
-        originalAmmortization: 25,
-        originalTerm: 5,
-        originalPrincipal: 150000,
-        started: false
-      },
-      payment: {
-        active: true,
-        risk: 'Aggressive',
-        period: 'Bi-weekly',
-        contribution: 250
-      }
-    });
   }
 
   RemoveMortgage(mortgage: MortgageContract) {

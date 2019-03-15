@@ -7,49 +7,44 @@ import { MortgageContract } from '../models/mortgage-contract.model';
   providedIn: 'root'
 })
 export class MortgageService {
-  currentMortgages: MortgageContract[];
-  initialMortgages: MortgageContract[];
+  mortgages: MortgageContract[] = [];
+  nextID = 0;
 
-  constructor() {
-    this.currentMortgages = [];
-    this.initialMortgages = [{
+  constructor() {  }
+
+  addMortgage() {
+    this.mortgages.push({
+      id: this.nextID,
       mortgage: {
-        ammortization: 24,
+        ammortization: 25,
         open: true,
         term: 5,
-        rate: 3.1,
-        principal: 126916.10,
-        originalAmmortization: 30,
+        rate: 3.5,
+        principal: 150000,
+        originalAmmortization: 25,
         originalTerm: 5,
         originalPrincipal: 150000,
         started: false
       },
       payment: {
         active: true,
-        risk: 'Aggressive',
-        contribution: 288,
-        period: 'Bi-weekly'
+        period: 'Monthly',
+        contribution: 750.94
       }
-    }];
+    });
+    this.nextID = this.nextID + 1;
   }
 
-  CopyInitialToCurrent(): any {
-    for (const contract of this.initialMortgages) {
-      const newContract = {
-        mortgage: Object.create(contract.mortgage),
-        payment: Object.create(contract.payment)
-      };
-      newContract.mortgage.originalAmmortization = newContract.mortgage.ammortization;
-      newContract.mortgage.originalPrincipal = newContract.mortgage.principal;
-      newContract.mortgage.originalTerm = newContract.mortgage.term;
-      this.currentMortgages.push(newContract);
-    }
+  removeMortgage(contract: MortgageContract) {
+    const newMortgages = this.mortgages.filter(x => x !== contract);
+    this.mortgages = newMortgages;
   }
 
   AddYear() {
     const nextYear = [];
-    for (const contract of this.currentMortgages) {
+    for (const contract of this.mortgages) {
       const ret: MortgageContract = {
+        id: contract.id,
         mortgage: Object.create(contract.mortgage),
         payment: contract.payment
       };
@@ -59,8 +54,7 @@ export class MortgageService {
         ret.mortgage.open = true;
       } else {
         if (ret.mortgage.open) {
-          ret.mortgage.originalPrincipal = ret.mortgage.principal;
-          ret.mortgage.originalTerm = ret.mortgage.term;
+          this.setOriginals(ret.mortgage);
         }
         ret.mortgage.term = ret.mortgage.term - 1;
         ret.mortgage.open = false;
@@ -68,10 +62,19 @@ export class MortgageService {
       ret.mortgage.ammortization = ret.mortgage.ammortization - 1;
       ret.mortgage.principal = this.GetRemainingPrincipal(ret);
       ret.mortgage.started = true;
-      nextYear.push(ret);
+
+      if (ret.mortgage.ammortization > 0 && ret.mortgage.principal > 0) {
+        nextYear.push(ret);
+      }
     }
 
-    this.currentMortgages = nextYear;
+    this.mortgages = nextYear;
+  }
+
+  setOriginals(model: Mortgage): any {
+    model.originalPrincipal = model.principal;
+    model.originalAmmortization = model.ammortization;
+    model.originalTerm = model.term;
   }
 
   GetRemainingPrincipal(contract: MortgageContract): number {
@@ -79,12 +82,12 @@ export class MortgageService {
     let balance = contract.mortgage.principal;
     const requiredPayment = this.GetRequiredPayment(contract);
     const actualPayment = contract.payment.contribution;
-    const difference = actualPayment - requiredPayment;
+    const difference = Math.round(actualPayment - requiredPayment);
     for (let i = 0; i < paymentsPerYear; i++) {
       const interest = this.Interest(balance, contract.mortgage.rate, paymentsPerYear);
       balance = balance + interest - actualPayment - difference;
     }
-    return Math.max(0, balance);
+    return Math.max(0, Math.round(balance * 100) / 100);
   }
 
   GetRequiredPayment(contract: MortgageContract): number {
@@ -94,7 +97,7 @@ export class MortgageService {
     const rN = Math.pow(1 + r, N);
     const curPayment = r * P / (1 - Math.pow(1 + r, -contract.mortgage.originalAmmortization * N));
     const paymentsPerYear = this.GetPaymentsPerYear(contract.payment);
-    return curPayment * N / paymentsPerYear;
+    return Math.round(curPayment * N / paymentsPerYear * 100) / 100;
   }
 
   GetPaymentsPerYear(payment: Contribution): number {
@@ -110,6 +113,6 @@ export class MortgageService {
   }
 
   Interest(balance: number, rate: number, paymentsPerYear: number): number {
-    return balance * rate / paymentsPerYear / 100;
+    return Math.round(balance * rate / paymentsPerYear) / 100;
   }
 }
