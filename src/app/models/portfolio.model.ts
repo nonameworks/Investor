@@ -1,6 +1,7 @@
 import { Mortgage } from './mortgage.model';
 
 export interface Portfolio {
+    taxableContributions: number;
     rrspRoom: number;
     tfsaRoom: number;
     age: number;
@@ -8,5 +9,4 @@ export interface Portfolio {
     tfsaValue: number;
     taxableValue: number;
     income: number;
-    pension: number;
 }

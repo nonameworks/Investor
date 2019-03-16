@@ -18,22 +18,22 @@ import { MatDialog } from '@angular/material';
 export class CurrentYearComponent implements OnInit {
   constructor(private summary: SummaryService, public mortgageService: MortgageService, private dialog: MatDialog) { }
   initialValues: Portfolio;
-  income: number;
   strategy: string;
-  incomeTax: number;
-  incomeTFSA: number;
-  incomeRRSP: number;
+  incomeTax = 0;
+  incomeTFSA = 0;
+  incomeRRSP = 0;
+  pension = 0;
+  cppAndOas = 0;
+  otherSavings = 0;
   calculatedPayment: number;
-  private retired = false;
 
   ngOnInit() {
     this.initialValues = this.summary.firstYear.portfolio;
     this.summary.thisYear = this.summary.firstYear;
-    this.income = this.initialValues.income;
   }
 
   addYear() {
-    const year = YearFactory.CreateYear(this.income, this.summary.thisYear);
+    const year = YearFactory.CreateYear(this.summary.thisYear);
     this.retirementAdjustments(year);
     this.initialValues = Object.create(year.portfolio);
     this.calculateRetirementIncome(year);
@@ -41,7 +41,7 @@ export class CurrentYearComponent implements OnInit {
   }
 
   private calculateRetirementIncome(year: Year) {
-    if (!this.retired) {
+    if (!this.summary.retired) {
       return;
     }
 
@@ -52,7 +52,7 @@ export class CurrentYearComponent implements OnInit {
   }
 
   private retirementAdjustments(year: Year) {
-    if (!this.retired) {
+    if (!this.summary.retired) {
       return;
     }
 
@@ -87,10 +87,18 @@ export class CurrentYearComponent implements OnInit {
       year.portfolio.rrspValue = 0;
     }
     year.portfolio.taxableValue = year.portfolio.taxableValue - (this.incomeTax || 0);
+    year.portfolio.taxableContributions = year.portfolio.taxableContributions - (this.incomeTax || 0);
+  }
+
+  calculatePayments() {
+    const remainingYears = 95 - this.summary.thisYear.age;
+    this.incomeTax = Math.round(this.summary.thisYear.portfolio.taxableValue / remainingYears * 100) / 100;
+    this.incomeRRSP = Math.round(this.summary.thisYear.portfolio.rrspValue / remainingYears * 100) / 100;
+    this.incomeTFSA = Math.round(this.summary.thisYear.portfolio.tfsaValue / remainingYears * 100) / 100;
   }
 
   retire() {
-    this.retired = true;
+    this.summary.retired = true;
     this.summary.thisYear.rrsp.contribution = 0;
     this.summary.thisYear.tfsa.contribution = 0;
     this.summary.thisYear.taxable.contribution = 0;

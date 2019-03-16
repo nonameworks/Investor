@@ -14,8 +14,11 @@
 
   <mat-expansion-panel *ngIf="summary.firstYear" [expanded]="currentExpanded">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Current Year
+      <mat-panel-title *ngIf="!summary.retired">
+        Current Year (Net income = {{summary.netIncome}}) (Retirement income = {{summary.retirementIncome}})
+      </mat-panel-title>
+      <mat-panel-title *ngIf="summary.retired">
+        Current Year (Retired)
       </mat-panel-title>
     </mat-expansion-panel-header>
 
@@ -25,7 +28,7 @@
   <mat-expansion-panel *ngIf="summary.firstYear">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Summary
+        Summary (Average return = {{summary.averageReturn}})
       </mat-panel-title>
     </mat-expansion-panel-header>
     <app-summary></app-summary>

@@ -5,7 +5,7 @@ import { ContributionService } from './contribution.service';
 import { Year } from '../models/year.model';
 
 export class YearFactory {
-    private static tsxAnnualReturns = [
+    private static spAnnualReturns = [
         0.248035814115241,
         -0.141607741351603,
         0.0004750998992316,
@@ -48,7 +48,7 @@ export class YearFactory {
         0.129364070165608
     ];
 
-    private static spAnnualReturns = [
+    private static tsxAnnualReturns = [
         0.123917419087396,
         0.272504654787179,
         -0.0655913791554846,
@@ -84,11 +84,11 @@ export class YearFactory {
 
     private static used: number[] = [];
 
-    public static CreateYear(income: number, previousYear: Year): Year {
+    public static CreateYear(previousYear: Year): Year {
         const curReturn = YearFactory.GetReturn();
         const newPortfolio = YearFactory.CreateNewPortfolio(previousYear);
         const rrspMaxAddition = 26500 + (230 * YearFactory.used.length);
-        const rrspAddition = Math.max(Math.min(income * .18, rrspMaxAddition * 2) - newPortfolio.pension, 0);
+        const rrspAddition = Math.max(Math.min(previousYear.portfolio.income * .18, rrspMaxAddition * 2), 0);
         newPortfolio.rrspRoom = newPortfolio.rrspRoom + rrspAddition;
         newPortfolio.tfsaRoom = newPortfolio.tfsaRoom + 6000;
 
@@ -96,6 +96,7 @@ export class YearFactory {
         newPortfolio.rrspRoom = Math.round(newPortfolio.rrspRoom);
         newPortfolio.rrspValue = Math.round(newPortfolio.rrspValue * (1 + YearFactory.AdjustReturn(curReturn, previousYear.rrsp)));
         newPortfolio.tfsaValue = Math.round(newPortfolio.tfsaValue * (1 + YearFactory.AdjustReturn(curReturn, previousYear.tfsa)));
+        newPortfolio.taxableValue = Math.round(newPortfolio.taxableValue * (1 + YearFactory.AdjustReturn(curReturn, previousYear.taxable)));
 
         const newYear = {
             age: previousYear.age + 1,
@@ -163,7 +164,8 @@ export class YearFactory {
         newPortfolio.tfsaValue = newPortfolio.tfsaValue + newPortfolio.tfsaRoom;
         newPortfolio.tfsaRoom = 0;
         newPortfolio.rrspRoom = 0;
-        newPortfolio.taxableValue = newPortfolio.taxableValue + rrspRollover + tfsaRollover;
+        newPortfolio.taxableValue = Math.round(newPortfolio.taxableValue + rrspRollover + tfsaRollover * 100) / 100;
+        newPortfolio.taxableContributions = Math.round(newPortfolio.taxableContributions + rrspRollover + tfsaRollover * 100) / 100;
     }
 
     private static GetReturn(): number {

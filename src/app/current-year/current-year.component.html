@@ -4,17 +4,20 @@
         <button mat-button *ngIf="!contract.mortgage.started" (click)="mortgageService.removeMortgage(contract)">Remove this mortgage</button>
     </app-mortgage>
     <br />
-    <div *ngIf="!retired">
+    <div *ngIf="!summary.retired">
 
         <app-contribution account="RRSP" [model]="summary.thisYear.rrsp"></app-contribution>
         <app-contribution account="TFSA" [model]="summary.thisYear.tfsa"></app-contribution>
         <br/>
         <mat-form-field>
-            <input matInput placeholder="Income" type="number" [(ngModel)]="income">
+            <input matInput placeholder="Income" type="number" [(ngModel)]="summary.thisYear.portfolio.income">
         </mat-form-field>
 
     </div>
-    <div *ngIf="retired">
+    <div *ngIf="summary.retired">
+        <button mat-raised-button (click)="calculatePayments()">Calculate Payments</button>
+        <br/>
+        <br/>
         <mat-form-field *ngIf="initialValues.taxableValue> 0">
             <input matInput placeholder="Withdraw from taxable" type="number" [(ngModel)]="incomeTax">
         </mat-form-field>
@@ -24,9 +27,23 @@
         <mat-form-field *ngIf="initialValues.rrspValue> 0">
             <input matInput placeholder="Withdraw from RRSP" type="number" [(ngModel)]="incomeRRSP">
         </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Pension" type="number" [(ngModel)]="pension">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="CPP and OAS" type="number" [(ngModel)]="cppAndOas">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Other Savings" type="number" [(ngModel)]="otherSavings">
+        </mat-form-field>
+        <div *ngIf="(incomeTax + incomeTFSA + incomeRRSP + pension + cppAndOas) + (otherSavings || 0) > 0">
+            <p>Total Income</p>
+            <p>{{(incomeTax || 0) + (incomeTFSA || 0) + (incomeRRSP || 0) + (pension || 0) + (cppAndOas || 0)  + (otherSavings || 0)}}</p>
+        </div>
+
     </div>
 
     <button mat-button class="mat-elevation-z8" (click)="addYear()" style="margin-top:20px;">Add Year</button>
-    <button mat-button class="mat-elevation-z8" *ngIf="!retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
+    <button mat-button class="mat-elevation-z8" *ngIf="!summary.retired" (click)="retire()" style="margin-top:20px;margin-left:20px;">Retire</button>
     <button mat-button class="mat-elevation-z8" (click)="mortgageService.addMortgage()" style="margin-top:20px;margin-left:20px;">Add Mortgage</button>
 </div>

@@ -1,7 +1,7 @@
 import { MatTableDataSource } from '@angular/material/table';
 import { Component, OnInit, Input } from '@angular/core';
 import { Year } from '../models/year.model';
-import { SummaryService, YearSummary } from '../services/summary.service';
+import { SummaryService } from '../services/summary.service';
 
 
 export interface Element {

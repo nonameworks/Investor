@@ -1,3 +1,4 @@
+import { ContributionService } from './../services/contribution.service';
 import { Portfolio } from './portfolio.model';
 import { Contribution } from './contribution.model';
 

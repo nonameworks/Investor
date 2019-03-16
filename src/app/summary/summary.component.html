@@ -1,4 +1,4 @@
-<table style="min-width: 600px;" mat-table [dataSource]="summary.dataSource" class="mat-elevation-z8" style="margin-left: auto; margin-right: auto;">
+<table mat-table [dataSource]="summary.dataSource" class="mat-elevation-z8" style="margin-left: auto; margin-right: auto;">
   <ng-container *ngFor="let column of summary.columns" [cdkColumnDef]="column.columnDef">
     <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
     <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>

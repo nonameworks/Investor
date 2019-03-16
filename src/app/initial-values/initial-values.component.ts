@@ -21,14 +21,14 @@ export class InitialValuesComponent implements OnInit {
   ngOnInit() {
     if (this.model == null) {
       this.model = {
-        age: 32,
-        rrspRoom: 57464,
-        rrspValue: 102578,
+        age: 30,
+        rrspRoom: 57500,
+        rrspValue: 100000,
         taxableValue: 0,
-        tfsaRoom: 12016,
-        tfsaValue: 58832,
-        income: 134000,
-        pension: 5667
+        tfsaRoom: 12000,
+        tfsaValue: 60000,
+        income: 85000,
+        taxableContributions: 0
       };
     }
   }

@@ -22,6 +22,7 @@ import { SummaryService } from './services/summary.service';
 import { RetireComponent } from './retire/retire.component';
 import { MortgageComponent } from './mortgage/mortgage.component';
 import { CdkTableModule } from '@angular/cdk/table';
+import { NotificationsService } from './services/notifications.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CdkTableModule } from '@angular/cdk/table';
   providers: [
     SummaryService,
     RetireComponent,
-    MortgageService
+    MortgageService,
+    NotificationsService
   ],
   bootstrap: [AppComponent]
 })
